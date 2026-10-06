@@ -16,6 +16,8 @@ base_model: Qwen/Qwen3.5-2B
 
 A drop-in extension of the **Qwen3.5** tokenizer that splits Turkish words at **root + suffix boundaries** instead of arbitrary byte-pair fragments, and makes Turkish nearly as cheap as English in tokens. **English and code tokenization is unchanged** (Qwen's original tokens and merges are kept as-is).
 
+**Hugging Face:** https://huggingface.co/smtturkan/turkish-morph-tokenizer · **GitHub:** https://github.com/smtturkan-droid/turkish-morph-tokenizer
+
 > Türkçe özet: Qwen3.5 tokenizer'ına 32 bin Türkçe kök/ek parçası eklendi. Kelimeler kökünden ve ekinden bölünüyor (okul·a, git·tim). Kökü bütün tutma %56'dan %92'ye çıktı, Türkçe metnin token maliyeti İngilizcenin 1,28 katından 1,07 katına indi. İngilizce ve kod aynı kalıyor.
 
 ## Results

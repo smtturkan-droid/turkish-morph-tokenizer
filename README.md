@@ -60,6 +60,15 @@ print(tok.decode(ids))                # original text, no marker
 
 Extending a BPE vocabulary above Qwen's added tokens triggers a crash in `openvino_tokenizers` when the vocab has an id gap ([openvinotoolkit/openvino_tokenizers#780](https://github.com/openvinotoolkit/openvino_tokenizers/issues/780)). This tokenizer avoids it by also writing the special tokens into `model.vocab` with their own ids, so it converts cleanly with `convert_tokenizer`.
 
+The BPE model also sets `"ignore_merges": true`. As the OpenVINO maintainers explained in #780, HF BPE with `ignore_merges=false` never emits a vocab token that is unreachable through its merges, while OpenVINO matches vocab entries directly; `true` makes HF behave like OpenVINO by design. For this vocabulary the setting changes nothing (identical ids on 4000/4000 sentences either way), it only guarantees parity. Check it yourself with [`ov_parity.py`](ov_parity.py):
+
+| Set | HF(false) = HF(true) | OpenVINO = HF | Round-trip |
+|---|---|---|---|
+| Turkish, 3000 sentences | 3000/3000 | 3000/3000 | 3000/3000 |
+| English, 1000 sentences | 1000/1000 | 1000/1000 | 1000/1000 |
+
+Thanks to [@apaniukov](https://github.com/apaniukov) for the analysis.
+
 ## Data used to build it
 
 Only sources that allow redistribution of derived work were used:
